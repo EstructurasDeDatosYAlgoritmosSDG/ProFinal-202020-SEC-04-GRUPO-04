@@ -38,7 +38,15 @@ recae sobre el controlador.
 
 # ___________________________________________________
 #  Inicializacion del catalogo
-# ___________________________________________________
+# __________________________________________________
+
+def init():
+    """
+    Llama la funcion de inicializacion del modelo.
+    """
+    analyzer = model.newAnalizer()
+
+    return analyzer
 
 
 # ___________________________________________________
@@ -46,6 +54,46 @@ recae sobre el controlador.
 #  de datos en los modelos
 # ___________________________________________________
 
+def loadData(analyzer, serviciosfile):
+    """
+    Carga los datos de los archivos CSV en el modelo
+    """
+    serviciosfile = cf.data_dir + serviciosfile
+    input_file = csv.DictReader(open(serviciosfile, encoding="utf-8"),
+                                delimiter=",")
+    for servicio in input_file:
+        model.agregarServicioCompanias(analyzer, servicio)
+        model.agregarCompaniasTaxis(analyzer, servicio)
+        model.agregarFechasArbol(analyzer, servicio)
+        model.agregarCommunityArea(analyzer, servicio)
+    print('\nCalculando los puntos de cada taxi...')
+    model.calcularPuntos(analyzer)
+    print('\nOrdenando las compañias...')
+    model.ordenarListas(analyzer)
+    print('\nOrdenando los taxis por la cantidad de puntos...')
+    model.ordenarArbol(analyzer)
+    return analyzer
+
 # ___________________________________________________
 #  Funciones para consultas
 # ___________________________________________________
+
+def topCompaniasServicios(analizer, cant_companias):
+    return model.topCompaniasServicios(analizer, cant_companias)
+
+def topCompaniasTaxis(analizer, cant_taxis):
+    return model.topCompaniasTaxis(analizer, cant_taxis)
+
+def totalTaxisCompanias(analizer):
+    return model.totalTaxisCompanias(analizer)
+
+def topTaxisPuntosFecha(analizer, fecha, cant_taxis):
+    return model.topTaxisPuntosFecha(analizer, fecha, cant_taxis)
+
+def topTaxisPuntosRango(analizer, fecha_inicio, fecha_final, cant_taxis):
+    return model.topTaxisPuntosRango(analizer, fecha_inicio, fecha_final, cant_taxis)
+
+def buscarMejorHorario(analizer, origen, destino, horario_inicial, horario_final):
+    return model.buscarMejorHorario(analizer, origen, destino, horario_inicial, horario_final)
+
+

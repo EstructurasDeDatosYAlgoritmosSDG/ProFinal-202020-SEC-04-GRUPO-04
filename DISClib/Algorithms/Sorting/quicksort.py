@@ -44,8 +44,7 @@ def partition(lst, lo, hi, lessequalfunction):
     """
     follower = leader = lo
     while leader < hi:
-        if (lessequalfunction(
-           (lt.getElement(lst, leader), lt.getElement(lst, hi)))):
+        if (lessequalfunction(lt.getElement(lst, leader), lt.getElement(lst, hi))):
             lt.exchange(lst, follower, leader)
             follower += 1
         leader += 1
